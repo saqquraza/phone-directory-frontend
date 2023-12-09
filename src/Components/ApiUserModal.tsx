@@ -65,6 +65,9 @@ const ApiUserModal: React.FC<Props> = ({
         await fetchData();
         form.resetFields();
         onClose();
+        message.success(
+          resp?.data?.message || "Updated User info successfully"
+        );
       } catch (err: any) {
         console.error(err);
         message.error(err?.response?.data?.message || "Something went wrong!");
