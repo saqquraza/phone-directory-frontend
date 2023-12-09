@@ -27,7 +27,7 @@ const ApiUserModal: React.FC<Props> = ({
   // const BASE_URL = 'http://localhost:4000/phonedirectory'
 
   const fetchUserDetailsById = async () => {
-    if (id!=='0') {
+    if (id !== '0') {
       try {
         const clientNotesResp = await axios.get(`${BACKEND_URI}/${id}`);
         setUserDetails(clientNotesResp.data[0]);
@@ -56,7 +56,12 @@ const ApiUserModal: React.FC<Props> = ({
   const handleEditUserDetail = async (value: apiTypes) => {
     if (id) {
       try {
-        const resp = await axios.patch(`${BACKEND_URI}/${id}`, value);
+        const resp = await axios.patch(`${BACKEND_URI}/${id}`, {
+          firstName: value.firstName,
+          lastName: value.lastName,
+          age: parseInt(value?.age),
+          phone: parseInt(value?.phoneNumber)
+        });
         await fetchData();
         form.resetFields();
         onClose();
