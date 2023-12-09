@@ -3,6 +3,7 @@ import { useForm } from 'antd/es/form/Form';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { apiTypes } from '../Service/apiTypes';
+import { BACKEND_URI } from '../constant';
 
 interface Props {
   onClose: () => void;
@@ -23,12 +24,12 @@ const ApiUserModal: React.FC<Props> = ({
 }) => {
   const [form] = useForm();
   const [userDetails, setUserDetails] = useState<any>({});
-  const BASE_URL = 'http://localhost:4000/phonedirectory'
+  // const BASE_URL = 'http://localhost:4000/phonedirectory'
 
   const fetchUserDetailsById = async () => {
     if (id!=='0') {
       try {
-        const clientNotesResp = await axios.get(`${BASE_URL}/${id}`);
+        const clientNotesResp = await axios.get(`${BACKEND_URI}/${id}`);
         setUserDetails(clientNotesResp.data[0]);
       } catch (err: any) {
         console.error(false);
@@ -55,7 +56,7 @@ const ApiUserModal: React.FC<Props> = ({
   const handleEditUserDetail = async (value: apiTypes) => {
     if (id) {
       try {
-        const resp = await axios.patch(`${BASE_URL}/${id}`, value);
+        const resp = await axios.patch(`${BACKEND_URI}/${id}`, value);
         await fetchData();
         form.resetFields();
         onClose();
@@ -69,7 +70,7 @@ const ApiUserModal: React.FC<Props> = ({
   const handleSubmit = async (value: apiTypes) => {
     {
       try {
-        const resp = await axios.post(`${BASE_URL}`, {
+        const resp = await axios.post(`${BACKEND_URI}`, {
           firstName: value.firstName,
           lastName: value.lastName,
           age: parseInt(value?.age),
@@ -79,7 +80,7 @@ const ApiUserModal: React.FC<Props> = ({
         form.resetFields();
         onClose();
         message.success(
-          resp?.data?.message || "Added Client Notes successfully"
+          resp?.data?.message || "Added User info successfully"
         );
       } catch (error: any) {
         message.error(error.response?.data?.message || "Something went wrong!");

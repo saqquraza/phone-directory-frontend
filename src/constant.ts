@@ -1,0 +1,1 @@
+export const BACKEND_URI = "https://phone-directory-3q94.onrender.com/phonedirectory"

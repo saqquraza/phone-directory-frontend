@@ -9,6 +9,7 @@ import "./ApiUser.css"
 import Navbar from './Navbar';
 import MobileDataCard from '../Common/MobileDataCard';
 import { useMediaQuery } from 'react-responsive';
+import { BACKEND_URI } from '../constant';
 
 interface DataTypes {
   key: string;
@@ -33,11 +34,12 @@ const ApiUser = () => {
   }>({ isOpen: false, id: "0" });
   const isDesktop = useMediaQuery({ minWidth: 993 });
 
-  const BASE_URL = 'http://localhost:4000/phonedirectory'
+  //local url
+  // const BASE_URL = 'http://localhost:4000/phonedirectory'
 
   const fetchData = async () => {
     try {
-      const result = await axios.get(`${BASE_URL}`);
+      const result = await axios.get(`${BACKEND_URI}`);
       setData(result.data);
     } catch (error) {
       console.log(error);
@@ -57,7 +59,7 @@ const ApiUser = () => {
       okText: "Delete",
       centered: true,
       onOk: async () => {
-        await axios.delete(`${BASE_URL}/${id}`)
+        await axios.delete(`${BACKEND_URI}/${id}`)
         await fetchData();
       },
     });
@@ -151,7 +153,7 @@ const ApiUser = () => {
 
   const MobileColumns: ColumnsType<DataTypes> = commonColumns;
 
-  const data: DataTypes[] = dataApi.map((data: any) => {
+  const data: DataTypes[] = dataApi?.map((data: any) => {
     return {
       key: `${data.id}`,
       firstName: data?.firstName,
